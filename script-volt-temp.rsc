@@ -3,6 +3,11 @@
 # Envia alertas via Telegram somente quando mudar de estado
 # ==============================
 
+# ----- Configurações do Telegram -----
+:global bottoken "SEU_BOT_TOKEN_AQUI"      # Token do bot do Telegram
+:global chatid1 "SEU_CHAT_ID_1_AQUI"       # ID do primeiro chat/grupo
+:global chatid2 "SEU_CHAT_ID_2_AQUI"       # ID do segundo chat/grupo
+
 # Variáveis globais
 :global voltagem [/system health get voltage]
 :global temperatura [/system health get temperature]
@@ -25,19 +30,15 @@
 :local thistime [/system clock get time]
 :local thisdate [/system clock get date]
 
-[/tool fetch url="https://api.telegram.org/botXXXX/sendMessage?chat_id=XXXX&text=[$thisdate $thistime] $thisbox $texto"]
-
-
 # ==============================
 # Função para enviar mensagem
 # ==============================
 :local sendMessage do={
     :local texto ($1)
-    :local chat ($2)
-    [/tool fetch url="https://api.telegram.org/botXXXX/sendMessage?chat_id=XXXX&text=[$thisdate $thistime] $thisbox $texto"]
+    :local chatid ($2)
+    [/tool fetch url="https://api.telegram.org/bot$bottoken/sendMessage?chat_id=$chatid&text=[$thisdate $thistime] $thisbox $texto"]
 }
 
-[/tool fetch url="https://api.telegram.org/botXXXX/sendMessage?chat_id=XXXX&text=[$thisdate $thistime] $thisbox $texto"]
 # ==============================
 # Verificação da Voltagem
 # ==============================
@@ -49,13 +50,16 @@
 # Só envia se mudou de estado
 :if ($voltstate != $lastvoltstate) do={
     :if ($voltstate = "baixa") do={
-        $sendMessage ("Voltagem: $voltagem V (?? Muito Baixa)") "XXXX"
+        $sendMessage ("Voltagem: $voltagem V (⚠️ Muito Baixa)") $chatid1
+        $sendMessage ("Voltagem: $voltagem V (⚠️ Muito Baixa)") $chatid2
     }
     :if ($voltstate = "alta") do={
-        $sendMessage ("Voltagem: $voltagem V (?? Muito Alta)") "XXXX"
+        $sendMessage ("Voltagem: $voltagem V (⚠️ Muito Alta)") $chatid1
+        $sendMessage ("Voltagem: $voltagem V (⚠️ Muito Alta)") $chatid2
     }
     :if ($voltstate = "normal") do={
-        $sendMessage ("Voltagem: $voltagem V (? Normal)") "XXXX"
+        $sendMessage ("Voltagem: $voltagem V (✅ Normal)") $chatid1
+        $sendMessage ("Voltagem: $voltagem V (✅ Normal)") $chatid2
     }
     :set lastvoltstate $voltstate
 }
@@ -71,13 +75,16 @@
 # Só envia se mudou de estado
 :if ($tempstate != $lasttempstate) do={
     :if ($tempstate = "baixa") do={
-        $sendMessage ("Temperatura: $temperatura °C (?? Muito Baixa)") "XXXX"
+        $sendMessage ("Temperatura: $temperatura °C (🧊 Muito Baixa)") $chatid1
+        $sendMessage ("Temperatura: $temperatura °C (🧊 Muito Baixa)") $chatid2
     }
     :if ($tempstate = "alta") do={
-        $sendMessage ("Temperatura: $temperatura °C (?? Muito Alta)") "XXXX"
+        $sendMessage ("Temperatura: $temperatura °C (🔥 Muito Alta)") $chatid1
+        $sendMessage ("Temperatura: $temperatura °C (🔥 Muito Alta)") $chatid2
     }
     :if ($tempstate = "normal") do={
-        $sendMessage ("Temperatura: $temperatura °C (? Normal)") "XXXX"
+        $sendMessage ("Temperatura: $temperatura °C (✅ Normal)") $chatid1
+        $sendMessage ("Temperatura: $temperatura °C (✅ Normal)") $chatid2
     }
     :set lasttempstate $tempstate
 }
