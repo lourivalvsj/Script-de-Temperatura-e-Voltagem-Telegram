@@ -50,16 +50,16 @@
 # Só envia se mudou de estado
 :if ($voltstate != $lastvoltstate) do={
     :if ($voltstate = "baixa") do={
-        $sendMessage ("Voltagem: $voltagem V (⚠️ Muito Baixa)") $chatid1
-        $sendMessage ("Voltagem: $voltagem V (⚠️ Muito Baixa)") $chatid2
+        $sendMessage ("Voltagem: $voltagem V [ALERTA] Muito Baixa") $chatid1
+        $sendMessage ("Voltagem: $voltagem V [ALERTA] Muito Baixa") $chatid2
     }
     :if ($voltstate = "alta") do={
-        $sendMessage ("Voltagem: $voltagem V (⚠️ Muito Alta)") $chatid1
-        $sendMessage ("Voltagem: $voltagem V (⚠️ Muito Alta)") $chatid2
+        $sendMessage ("Voltagem: $voltagem V [ALERTA] Muito Alta") $chatid1
+        $sendMessage ("Voltagem: $voltagem V [ALERTA] Muito Alta") $chatid2
     }
     :if ($voltstate = "normal") do={
-        $sendMessage ("Voltagem: $voltagem V (✅ Normal)") $chatid1
-        $sendMessage ("Voltagem: $voltagem V (✅ Normal)") $chatid2
+        $sendMessage ("Voltagem: $voltagem V [OK] Normal") $chatid1
+        $sendMessage ("Voltagem: $voltagem V [OK] Normal") $chatid2
     }
     :set lastvoltstate $voltstate
 }
@@ -75,16 +75,16 @@
 # Só envia se mudou de estado
 :if ($tempstate != $lasttempstate) do={
     :if ($tempstate = "baixa") do={
-        $sendMessage ("Temperatura: $temperatura °C (🧊 Muito Baixa)") $chatid1
-        $sendMessage ("Temperatura: $temperatura °C (🧊 Muito Baixa)") $chatid2
+        $sendMessage ("Temperatura: $temperatura C [ALERTA] Muito Baixa") $chatid1
+        $sendMessage ("Temperatura: $temperatura C [ALERTA] Muito Baixa") $chatid2
     }
     :if ($tempstate = "alta") do={
-        $sendMessage ("Temperatura: $temperatura °C (🔥 Muito Alta)") $chatid1
-        $sendMessage ("Temperatura: $temperatura °C (🔥 Muito Alta)") $chatid2
+        $sendMessage ("Temperatura: $temperatura C [ALERTA] Muito Alta") $chatid1
+        $sendMessage ("Temperatura: $temperatura C [ALERTA] Muito Alta") $chatid2
     }
     :if ($tempstate = "normal") do={
-        $sendMessage ("Temperatura: $temperatura °C (✅ Normal)") $chatid1
-        $sendMessage ("Temperatura: $temperatura °C (✅ Normal)") $chatid2
+        $sendMessage ("Temperatura: $temperatura C [OK] Normal") $chatid1
+        $sendMessage ("Temperatura: $temperatura C [OK] Normal") $chatid2
     }
     :set lasttempstate $tempstate
 }
