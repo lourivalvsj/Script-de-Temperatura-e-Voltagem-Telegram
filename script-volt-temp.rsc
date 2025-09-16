@@ -2,6 +2,25 @@
 # Monitoramento de Voltagem e Temperatura - RouterOS
 # Envia alertas via Telegram somente quando mudar de estado
 # ==============================
+# 
+# Desenvolvedor: Lourival Vicente
+# GitHub: @lourivalvsj
+# Repositório: Script-de-Temperatura-e-Voltagem-Telegram
+# Data de Criação: Setembro 2025
+# Versão: 1.0
+# 
+# Descrição:
+# Script para monitoramento automático de voltagem e temperatura
+# em equipamentos RouterOS, com notificações via Telegram Bot.
+# Envia alertas apenas quando há mudança de estado, evitando spam.
+# 
+# Recursos:
+# - Monitoramento contínuo de voltagem e temperatura
+# - Envio para múltiplos chats/grupos do Telegram
+# - Detecção de mudança de estado (normal/alta/baixa)
+# - Configuração flexível de limites
+# - Compatibilidade total com RouterOS
+# ==============================
 
 # ----- Configurações do Telegram -----
 :global bottoken "SEU_BOT_TOKEN_AQUI"      # Token do bot do Telegram
