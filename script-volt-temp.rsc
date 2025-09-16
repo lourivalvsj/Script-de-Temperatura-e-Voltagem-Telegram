@@ -49,6 +49,9 @@
 :local thistime [/system clock get time]
 :local thisdate [/system clock get date]
 
+# Log de inicio da execução
+:log info "MONITORAMENTO INICIADO: Voltagem=$voltagem V | Temperatura=$temperatura C | [$thisdate $thistime]"
+
 # ==============================
 # Função para enviar mensagem
 # ==============================
@@ -68,17 +71,23 @@
 
 # Só envia se mudou de estado
 :if ($voltstate != $lastvoltstate) do={
+    # Log da mudança de estado
+    :log info "VOLTAGEM: Mudanca de estado de '$lastvoltstate' para '$voltstate' - Valor: $voltagem V"
+    
     :if ($voltstate = "baixa") do={
         $sendMessage ("Voltagem: $voltagem V [ALERTA] Muito Baixa") $chatid1
         $sendMessage ("Voltagem: $voltagem V [ALERTA] Muito Baixa") $chatid2
+        :log warning "VOLTAGEM CRITICA: $voltagem V - Abaixo do limite minimo ($lowvolt V)"
     }
     :if ($voltstate = "alta") do={
         $sendMessage ("Voltagem: $voltagem V [ALERTA] Muito Alta") $chatid1
         $sendMessage ("Voltagem: $voltagem V [ALERTA] Muito Alta") $chatid2
+        :log warning "VOLTAGEM CRITICA: $voltagem V - Acima do limite maximo ($highvolt V)"
     }
     :if ($voltstate = "normal") do={
         $sendMessage ("Voltagem: $voltagem V [OK] Normal") $chatid1
         $sendMessage ("Voltagem: $voltagem V [OK] Normal") $chatid2
+        :log info "VOLTAGEM NORMALIZADA: $voltagem V - Dentro dos limites ($lowvolt V - $highvolt V)"
     }
     :set lastvoltstate $voltstate
 }
@@ -93,17 +102,23 @@
 
 # Só envia se mudou de estado
 :if ($tempstate != $lasttempstate) do={
+    # Log da mudança de estado
+    :log info "TEMPERATURA: Mudanca de estado de '$lasttempstate' para '$tempstate' - Valor: $temperatura C"
+    
     :if ($tempstate = "baixa") do={
         $sendMessage ("Temperatura: $temperatura C [ALERTA] Muito Baixa") $chatid1
         $sendMessage ("Temperatura: $temperatura C [ALERTA] Muito Baixa") $chatid2
+        :log warning "TEMPERATURA CRITICA: $temperatura C - Abaixo do limite minimo ($lowtemp C)"
     }
     :if ($tempstate = "alta") do={
         $sendMessage ("Temperatura: $temperatura C [ALERTA] Muito Alta") $chatid1
         $sendMessage ("Temperatura: $temperatura C [ALERTA] Muito Alta") $chatid2
+        :log warning "TEMPERATURA CRITICA: $temperatura C - Acima do limite maximo ($hightemp C)"
     }
     :if ($tempstate = "normal") do={
         $sendMessage ("Temperatura: $temperatura C [OK] Normal") $chatid1
         $sendMessage ("Temperatura: $temperatura C [OK] Normal") $chatid2
+        :log info "TEMPERATURA NORMALIZADA: $temperatura C - Dentro dos limites ($lowtemp C - $hightemp C)"
     }
     :set lasttempstate $tempstate
 }
